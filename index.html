@@ -64,24 +64,35 @@
   </style>
 </head>
 <body>
+  <div>
+    <label for="conversation-data">会話データ(JSON形式):</label>
+    <textarea id="conversation-data" rows="5" cols="60"></textarea>
+  </div>
+  <button id="display-btn">表示</button>
   <div class="conversation">
     <!-- ここにJavaScriptで生成されたメッセージ要素が入ります -->
   </div>
 
   <script>
-    const conversationData = [{"userMessage":"test","botMessage":"test"},{"userMessage":"test","botMessage":"test"},{"userMessage":"test","botMessage":"test"}];
+    const displayBtn = document.getElementById('display-btn');
     const conversationElement = document.querySelector('.conversation');
+    const conversationDataInput = document.getElementById('conversation-data');
 
-    conversationData.forEach(({ userMessage, botMessage }) => {
-      const userMessageElement = document.createElement('div');
-      userMessageElement.className = 'message user';
-      userMessageElement.innerText = userMessage;
-      conversationElement.appendChild(userMessageElement);
+    displayBtn.addEventListener('click', () => {
+      const conversationData = JSON.parse(conversationDataInput.value);
+      conversationElement.innerHTML = '';
 
-      const botMessageElement = document.createElement('div');
-      botMessageElement.className = 'message bot';
-      botMessageElement.innerText = botMessage;
-      conversationElement.appendChild(botMessageElement);
+      conversationData.forEach(({ userMessage, botMessage }) => {
+        const userMessageElement = document.createElement('div');
+        userMessageElement.className = 'message user';
+        userMessageElement.innerText = userMessage;
+        conversationElement.appendChild(userMessageElement);
+
+        const botMessageElement = document.createElement('div');
+        botMessageElement.className = 'message bot';
+        botMessageElement.innerText = botMessage;
+        conversationElement.appendChild(botMessageElement);
+      });
     });
   </script>
 </body>
